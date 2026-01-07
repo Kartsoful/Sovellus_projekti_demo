@@ -6,7 +6,6 @@ const student = {
     getAll: function (callback) {
         return db.query("SELECT * FROM student", callback);
     },
-
     getOne: function (username, callback) {
         return db.query(
             "SELECT * FROM student WHERE username = ?",
@@ -14,24 +13,24 @@ const student = {
             callback
         );
     },
-
     add: function (student, callback) {
         bcrypt.hash(student.password, 10, function (err, hashedPassword) {
             if (err) return callback(err);
             return db.query("INSERT INTO student (username, fname, lname, streetaddress, email, password) VALUES (?,?,?,?,?,?)",[student.username,student.fname,student.lname,student.streetaddress,student.email,hashedPassword],callback);
         });
     },
-
     update: function (student, username, callback) {
         bcrypt.hash(student.password, 10, function (err, hashedPassword) {
             if (err) return callback(err);
             return db.query("UPDATE student SET fname=?, lname=?, streetaddress=?, email=?, password=? WHERE username=?",[student.fname,student.lname,student.streetaddress,student.email,hashedPassword,username],callback);
         });
     },
-
     delete: function (username, callback) {
         return db.query(
             "DELETE FROM student WHERE username = ?",[username],callback);
+    },
+    check_password:function(username,callback){
+        return db.query("SELECT password FROM student WHERE username=?",[username],callback);
     }
 };
 
