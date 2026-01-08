@@ -39,11 +39,11 @@ void MainWindow::loginAction()
         QJsonDocument jsonDoc=QJsonDocument::fromJson(responseData);
         QJsonObject jsonObject = jsonDoc.object();
         if(jsonObject.contains("token")) {
-            qDebug() << "Login ok";
+            QString token=jsonObject["token"].toString();
+            qDebug()<<token;
         }
         else {
             ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
         }
     }
-    qDebug() << responseData;
 }
